@@ -13,6 +13,8 @@ module Jekyll
 		def render(context)
 			# get the site config variables
 			site_config = context.registers[:site].config
+			# get blog author
+			author = site_config['author']
 
 			# get the email address from the site config
 			email_address = site_config['gravatar_email']
@@ -31,7 +33,8 @@ module Jekyll
                         end
 			
 			# output the full Gravatar URL
-			image_src
+			image = "<img src=\"#{image_src}\" alt=\"Gravatar of #{author}\" title=\"Gravatar of #{author} \"/>"
+			image
 		end
 
 	end
