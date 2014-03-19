@@ -30,11 +30,11 @@ module Jekyll
 					""
 				profile_url = profile.fetch("entry")[0].fetch("profileUrl")
 				info = Hash.new
-				info["name"] = name
+				info[:name] = name
 				# don't bother adding a location if there isn't one
-				info["location"] = location unless location.empty?
-				info["url"] = url
-				return url
+				info[:location] = location unless location.empty?
+				info[:url] = url
+				return info
 			end
 		end
 		
