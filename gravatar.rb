@@ -62,7 +62,7 @@ module Jekyll
 			unless @size.empty?
 			  image_src = image_src+"?s=#{@size}"
 			end
-
+			profile[:image] = image_src
 			# output the full Gravatar URL
 			image = "<img src=\"#{image_src}\" alt=\"Gravatar of #{author}\" title=\"Gravatar of #{author} \"/>"
 			image
