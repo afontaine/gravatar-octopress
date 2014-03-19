@@ -7,9 +7,8 @@ module Jekyll
 
 	class Gravatar < Liquid::Tag
 
-		def initialize(tag_name, size, token)
+		def initialize(tag_name, token)
 		  super
-		  @size = size.strip
 		end
 
 		def get_profile(hash)
@@ -85,10 +84,6 @@ module Jekyll
 			# compile the full Gravatar URL
 			image_src = "http://www.gravatar.com/avatar/#{gravatar_hash}"
 
-			# append size query to URL if provided in tag
-			unless @size.empty?
-			  image_src = image_src+"?s=#{@size}"
-			end
 			profile[:image] = image_src
 			# output the profile hash to access in template
 			return build_hovercard(profile)
