@@ -7,10 +7,10 @@ module Jekyll
 
 	class Gravatar < Liquid::Tag
 
-                def initialize(tag_name, size, token)
-                  super
-                  @size = size.strip
-                end
+		def initialize(tag_name, size, token)
+		  super
+		  @size = size.strip
+		end
 
 		def get_profile(hash)
 			return nil unless hash.is_a? String
@@ -22,8 +22,12 @@ module Jekyll
 			else
 				# parse JSON and return simplified hash of information
 				profile = res.body
-				name = profile.fetch("entry")[0].fetch("name").key?("formatted") ? profile.fetch("entry")[0].fetch("name").fetch("formatted") : profile.fetch("entry")[0].fetch("username")
-				location = profile.fetch("entry")[0].key?("currentLocation") : profile.fetch("entry")[0].fetch("currentLocation") : ""
+				name = profile.fetch("entry")[0].fetch("name").key?("formatted") ?
+					profile.fetch("entry")[0].fetch("name").fetch("formatted") :
+					profile.fetch("entry")[0].fetch("username")
+				location = profile.fetch("entry")[0].key?("currentLocation") ?
+					profile.fetch("entry")[0].fetch("currentLocation") :
+					""
 				profile_url = profile.fetch("entry")[0].fetch("profileUrl")
 				info = Hash.new
 				info["name"] = name
@@ -53,19 +57,19 @@ module Jekyll
 
 			# compile the full Gravatar URL
 			image_src = "http://www.gravatar.com/avatar/#{gravatar_hash}"
-			
-                        # append size query to URL if provided in tag
-                        unless @size.empty?
-                          image_src = image_src+"?s=#{@size}"
-                        end
-			
+
+			# append size query to URL if provided in tag
+			unless @size.empty?
+			  image_src = image_src+"?s=#{@size}"
+			end
+
 			# output the full Gravatar URL
 			image = "<img src=\"#{image_src}\" alt=\"Gravatar of #{author}\" title=\"Gravatar of #{author} \"/>"
 			image
 		end
 
 	end
-	
+
 end
 
 # register the "gravatar_image" tag
