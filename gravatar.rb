@@ -41,14 +41,14 @@ module Jekyll
 		end
 
 		def build_hovercard(profile)
-			html = "<div class='gcard grofile pos-right'>" +
+			html = "<div class='gcard grofile' style='position: relative; min-width:210px; margin: 18px auto 0px;'>" +
 				"<div class='grav-inner gcard-about'>" +
-				"<div class='grav-grav'>" +
+				"<div class='grav-grav' style='width: 100px; margin: 0px auto 10px; float: none;'>" +
 				"<a href='#{profile[:url]}' target='_blank'>"+
-				"<img src='#{profile[:image]}' width='100' height='100'>" +
+				"<img src='#{profile[:image]}' width='100' height='100' style='border: none'>" +
 				"</a>" +
 				"</div>" +
-				"<div class='grav-info'>" +
+				"<div class='grav-info' style='float: none; margin: 0px auto; style: auto;'>" +
 				"<h4><a href=#{profile[:url]}' target='_blank'>#{profile[:name]}</a></h4>" +
 				"<p class='grav-loc'>#{profile[:location]}</p>" +
 				"<p class='grav-about'>#{profile[:about]}</p>" +
