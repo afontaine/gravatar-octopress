@@ -1,7 +1,7 @@
 # include the MD5 gem, this should be part of a standard ruby install
 require 'digest/md5'
 require 'net/http'
-requre 'json'
+require 'json'
 
 module Jekyll
 
@@ -21,7 +21,8 @@ module Jekyll
 				return nil
 			else
 				# parse JSON and return simplified hash of information
-				profile = res.body
+				profile_string = res.body
+				profile = JSON.parse(profile_string)
 				name = profile.fetch("entry")[0].fetch("name").key?("formatted") ?
 					profile.fetch("entry")[0].fetch("name").fetch("formatted") :
 					profile.fetch("entry")[0].fetch("username")
@@ -29,14 +30,40 @@ module Jekyll
 					profile.fetch("entry")[0].fetch("currentLocation") :
 					""
 				profile_url = profile.fetch("entry")[0].fetch("profileUrl")
+				about = profile.fetch("entry")[0].fetch("aboutMe")
 				info = Hash.new
 				info[:name] = name
-				# don't bother adding a location if there isn't one
-				info[:location] = location unless location.empty?
-				info[:url] = url
+				info[:location] = location
+				info[:url] = profile_url
+				info[:about] = about
 				return info
 			end
 		end
+
+		def build_hovercard(profile)
+			html = "<div class='gcard grofile pos-right'>" +
+				"<div class='grav-inner gcard-about'>" +
+				"<div class='grav-grav'>" +
+				"<a href='#{profile[:url]}' target='_blank'>"+
+				"<img src='#{profile[:image]}' width='100' height='100'>" +
+				"</a>" +
+				"</div>" +
+				"<div class='grav-info'>" +
+				"<h4><a href=#{profile[:url]}' target='_blank'>#{profile[:name]}</a></h4>" +
+				"<p class='grav-loc'>#{profile[:location]}</p>" +
+				"<p class='grav-about'>#{profile[:about]}</p>" +
+				"<div class='grav-view-complete-button'>" +
+				"<a href='#{profile[:url]}' target='_blank' class='grav-view-complete'>View Compelete Profile</a>" +
+				"</div>" +
+				"</div>" +
+				"<div style='clear:both'></div>" +
+				"</div>" +
+				"<div class='grav-cardarrow'></div>" +
+				"<div class='grav-tag'><a href='http://gravatar.com' title='Powered by Gravatar.com'" +
+			    "target='_blank'>&nbsp;</a></div>"
+			return html
+		end
+			
 		
 		def render(context)
 			# get the site config variables
@@ -63,9 +90,8 @@ module Jekyll
 			  image_src = image_src+"?s=#{@size}"
 			end
 			profile[:image] = image_src
-			# output the full Gravatar URL
-			image = "<img src=\"#{image_src}\" alt=\"Gravatar of #{author}\" title=\"Gravatar of #{author} \"/>"
-			image
+			# output the profile hash to access in template
+			return build_hovercard(profile)
 		end
 
 	end
