@@ -1,7 +1,12 @@
+---
+permalink: gravatar.html
+---
+
 {% if site.gravatar_email %}
+<link rel="stylesheet" type="text/css" href="http://s.gravatar.com/css/hovercard.css">
 <section>
 	<span>
-		<img src="{% gravatar_image %}" alt="Gravatar of {{ site.author}} " title="Gravatar of {{ site.author }}" />
+		{% gravatar_image %}
 	</span>
 </section>
 {% endif %}
